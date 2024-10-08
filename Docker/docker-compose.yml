@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  panda_data:
+    image: panda_data
+    privileged: true
+    network_mode: "host"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+    environment:
+      - HOST_UID=${UID}
+      - USER=${USER}
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix/:/tmp/.X11-unix:rw
+      - $HOME/.Xauthority:/home/${USER}/.Xauthority:rw
+      - $PWD:/root/catkin_ws/src/panda_data
+      - /dev:/dev
+    stdin_open: true
+    tty: true
